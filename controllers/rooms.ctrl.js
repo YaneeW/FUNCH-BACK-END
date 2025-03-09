@@ -14,7 +14,6 @@ const getAllRooms = async (req,res)=>{
             })
         }else{
             return res.status(result.status).json({
-                message: result.error,
                 data: result.data
             })
         }
@@ -30,7 +29,6 @@ const getAllRooms = async (req,res)=>{
 const bookRoom = async (req, res) => {
     try {
         const { user_id, room_id, check_in_date, check_out_date } = req.body;
-        console.log('req body: ', { user_id, room_id, check_in_date, check_out_date });
 
         // ตรวจสอบว่ามีข้อมูลที่จำเป็นหรือไม่
         if (!user_id || !room_id || !check_in_date || !check_out_date) {
@@ -40,9 +38,6 @@ const bookRoom = async (req, res) => {
             });
         }
 
-        console.log("Booking request:", req.body);
-
-        // บันทึกข้อมูลการจองห้องใน Supabase
         const booking = await supabase
             .from("bookings")
             .insert([
@@ -54,16 +49,14 @@ const bookRoom = async (req, res) => {
                     status: "booked",
                 }
             ]);
-            console.log("book",booking)
 
-        // ถ้าการจองสำเร็จ
+
         return res.status(200).json({
             message: "Room booked successfully",
             data: null
         });
 
     } catch (error) {
-        console.error("Booking error:", error);
         return res.status(500).json({
             message: "Internal server error",
             data: null
