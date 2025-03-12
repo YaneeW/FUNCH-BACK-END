@@ -1,6 +1,5 @@
 import {supabase} from "../config/db.js"
 import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
 import "dotenv/config"
 import crypto from "crypto";
 
